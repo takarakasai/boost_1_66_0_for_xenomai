@@ -86,7 +86,8 @@ shared_work::notify() noexcept {
     if ( suspend_) {
         std::unique_lock< std::mutex > lk{ mtx_ };
         flag_ = true;
-        lk.unlock();
+        // xenomai pthread skin's notify/notify_all require mutex locked.
+        // lk.unlock();
         cnd_.notify_all();
     }
 }

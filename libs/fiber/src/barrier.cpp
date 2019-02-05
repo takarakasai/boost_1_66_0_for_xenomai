@@ -34,7 +34,8 @@ barrier::wait() {
     if ( 0 == --current_) {
         ++cycle_;
         current_ = initial_;
-        lk.unlock(); // no pessimization
+        // xenomai pthread skin's notify/notify_all require mutex locked.
+        // lk.unlock(); // no pessimization
         cond_.notify_all();
         return true;
     } else {
